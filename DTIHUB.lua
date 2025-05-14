@@ -46,24 +46,28 @@ DTIFrame.Parent = screenGui
 local CloseBtn = createButton("CLOSE", UDim2.new(0,50,0,50), UDim2.new(0.895,0,0,0), DTIFrame)
 local MoneyBtn = createButton("Money TP", UDim2.new(0,50,0,50), UDim2.new(0.79,0,0,0), DTIFrame)
 
-	local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
-	local moneyFolder = workspace:WaitForChild("CollectibleMoney")
+local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
+local moneyFolder = workspace:WaitForChild("CollectibleMoney")
 
-	local function teleportToAllMoney()
-		for _, folderName in ipairs(targetFolders) do
-			local folder = moneyFolder:FindFirstChild(folderName)
-			if folder then
-				for _, item in ipairs(folder:GetChildren()) do
-					if item:IsA("BasePart") then
-						character:MoveTo(item.Position + Vector3.new(0, 1, 0))
-						task.wait(0.1)
-					end
+local function teleportToAllMoney()
+	for _, folderName in ipairs(targetFolders) do
+		local folder = moneyFolder:FindFirstChild(folderName)
+		if folder then
+			for _, item in ipairs(folder:GetChildren()) do
+				if item:IsA("BasePart") then
+					character:MoveTo(item.Position + Vector3.new(0, 1, 0))
+					task.wait(0.1)
 				end
 			end
 		end
 	end
 end
+end
 
-CloseBtn.MouseButton1Click:Connect(function() screenGui:Destroy() end)
+CloseBtn.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
 
-MoneyBtn.MouseButton1Click:Connect(function() teleportToAllMoney end)
+MoneyBtn.MouseButton1Click:Connect(function()
+	teleportToAllMoney
+end)
