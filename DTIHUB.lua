@@ -44,9 +44,7 @@ DTIFrame.Draggable = true
 DTIFrame.Parent = screenGui
 
 local CloseBtn = createButton("CLOSE", UDim2.new(0,50,0,50), UDim2.new(0.895,0,0,0), DTIFrame)
-local CloseBtn = createButton("Money TP", UDim2.new(0,50,0,50), UDim2.new(0.79,0,0,0), DTIFrame)
-
-CloseBtn.MouseButton1Click:Connect(function() screenGui:Destroy() end)
+local MoneyBtn = createButton("Money TP", UDim2.new(0,50,0,50), UDim2.new(0.79,0,0,0), DTIFrame)
 
 local function CollectAllCoins()
 	local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
@@ -68,3 +66,7 @@ local function CollectAllCoins()
 
 	teleportToAllMoney()
 end
+
+CloseBtn.MouseButton1Click:Connect(function() screenGui:Destroy() end)
+
+MoneyBtn.MouseButton1Click:Connect(function() CollectAllCoins() end)
