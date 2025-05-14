@@ -1,0 +1,70 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+local UIS = game:GetService("UserInputService")
+local character = player.Character or player.CharacterAdded:Wait()
+
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+screenGui.Name = "DTIGui"
+screenGui.ResetOnSpawn = false
+
+UIS.InputBegan:Connect(function(player)
+	if player.KeyCode == Enum.KeyCode.RightControl then
+		if screenGui.Enabled == true then
+			screenGui.Enabled = false
+		else
+			screenGui.Enabled = true
+		end
+	end
+end)
+
+local function createButton(text, size, pos, parent, color)
+	local btn = Instance.new("TextButton")
+	btn.Size = size
+	btn.Position = pos
+	btn.Text = text
+	btn.BackgroundColor3 = color or Color3.fromRGB(255,255,255)
+	btn.TextColor3 = Color3.new(0,0,0)
+	btn.Font = Enum.Font.SourceSansBold
+	btn.TextScaled = true
+	btn.Parent = parent
+	btn.BorderSizePixel = 2
+	return btn
+end
+
+local DTIFrame = Instance.new("Frame")
+DTIFrame.Size = UDim2.new(0, 477, 0, 407)
+DTIFrame.BackgroundColor3 = Color3.fromRGB(230, 165, 255)
+DTIFrame.BorderSizePixel = 4
+DTIFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+DTIFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+DTIFrame.Active = true
+DTIFrame.Draggable = true
+DTIFrame.Parent = screenGui
+
+local CloseBtn = createButton("CLOSE", UDim2.new(0,50,0,50), UDim2.new(0.895,0,0,0), DTIFrame)
+local CloseBtn = createButton("Money TP", UDim2.new(0,50,0,50), UDim2.new(0.79,0,0,0), DTIFrame)
+
+CloseBtn.MouseButton1Click:Connect(function() screenGui:Destroy() end)
+
+local function CollectAllCoins()
+	local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
+	local moneyFolder = workspace:WaitForChild("CollectibleMoney")
+
+	local function teleportToAllMoney()
+		for _, folderName in ipairs(targetFolders) do
+			local folder = moneyFolder:FindFirstChild(folderName)
+			if folder then
+				for _, item in ipairs(folder:GetChildren()) do
+					if item:IsA("BasePart") then
+						character:MoveTo(item.Position + Vector3.new(0, 1, 0))
+						task.wait(0.1)
+					end
+				end
+			end
+		end
+	end
+
+	teleportToAllMoney()
+end
