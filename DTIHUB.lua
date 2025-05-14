@@ -50,22 +50,25 @@ local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
 local moneyFolder = workspace:WaitForChild("CollectibleMoney")
 
 local function teleportToAllMoney()
+	local character = player.Character or player.CharacterAdded:Wait()
+	local moneyFolder = workspace:WaitForChild("CollectibleMoney")
+	local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
+
 	for _, folderName in ipairs(targetFolders) do
 		local folder = moneyFolder:FindFirstChild(folderName)
 		if folder then
 			for _, item in ipairs(folder:GetChildren()) do
 				if item:IsA("BasePart") then
-					character:MoveTo(item.Position + Vector3.new(0, 1, 0))
+					character:MoveTo(item.Position + Vector3.new(0, 5, 0))
 					task.wait(0.1)
 				end
 			end
 		end
 	end
 end
-end
+
+MoneyBtn.MouseButton1Click:Connect(teleportToAllMoney)
 
 CloseBtn.MouseButton1Click:Connect(function()
 	screenGui:Destroy()
 end)
-
-MoneyBtn.MouseButton1Click:Connect(teleportToAllMoney)
