@@ -68,6 +68,4 @@ CloseBtn.MouseButton1Click:Connect(function()
 	screenGui:Destroy()
 end)
 
-MoneyBtn.MouseButton1Click:Connect(function()
-	teleportToAllMoney
-end)
+MoneyBtn.MouseButton1Click:Connect(teleportToAllMoney)
