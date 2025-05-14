@@ -46,8 +46,7 @@ DTIFrame.Parent = screenGui
 local CloseBtn = createButton("CLOSE", UDim2.new(0,50,0,50), UDim2.new(0.895,0,0,0), DTIFrame)
 local MoneyBtn = createButton("Money TP", UDim2.new(0,50,0,50), UDim2.new(0.79,0,0,0), DTIFrame)
 
-local toggled = false
-local function bringMoneyToPlayer()
+local function teleportToAllMoney()
 	local character = player.Character or player.CharacterAdded:Wait()
 	local moneyFolder = workspace:WaitForChild("CollectibleMoney")
 	local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
@@ -56,26 +55,16 @@ local function bringMoneyToPlayer()
 		local folder = moneyFolder:FindFirstChild(folderName)
 		if folder then
 			for _, item in ipairs(folder:GetChildren()) do
-				if not toggled then return end
-				if item:IsA("BasePart") and item.Name == "Money" then
-					item.CFrame = character.PrimaryPart.CFrame + Vector3.new(0, 1, 0)
-					task.wait(0.4)
+				if item:IsA("BasePart") then
+					character:MoveTo(item.Position + Vector3.new(0, 1, 0))
+					task.wait(0.2)
 				end
 			end
 		end
 	end
 end
 
-MoneyBtn.MouseButton1Click:Connect(function()
-	toggled = not toggled
-	if toggled then
-		bringMoneyToPlayer()
-	else
-		print("Stopped")
-	end
-end)
-
-MoneyBtn.MouseButton1Click:Connect(bringMoneyToPlayer)
+MoneyBtn.MouseButton1Click:Connect(teleportToAllMoney)
 
 CloseBtn.MouseButton1Click:Connect(function()
 	screenGui:Destroy()
