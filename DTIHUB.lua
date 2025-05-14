@@ -46,7 +46,6 @@ DTIFrame.Parent = screenGui
 local CloseBtn = createButton("CLOSE", UDim2.new(0,50,0,50), UDim2.new(0.895,0,0,0), DTIFrame)
 local MoneyBtn = createButton("Money TP", UDim2.new(0,50,0,50), UDim2.new(0.79,0,0,0), DTIFrame)
 
-local function CollectAllCoins()
 	local targetFolders = {"DressingRoom", "Lobby", "Obby", "VIP"}
 	local moneyFolder = workspace:WaitForChild("CollectibleMoney")
 
@@ -63,10 +62,8 @@ local function CollectAllCoins()
 			end
 		end
 	end
-
-	teleportToAllMoney()
 end
 
 CloseBtn.MouseButton1Click:Connect(function() screenGui:Destroy() end)
 
-MoneyBtn.MouseButton1Click:Connect(function() CollectAllCoins() end)
+MoneyBtn.MouseButton1Click:Connect(function() teleportToAllMoney end)
