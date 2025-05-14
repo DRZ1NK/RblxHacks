@@ -60,7 +60,7 @@ local function teleportToAllMoney()
 			for _, item in ipairs(folder:GetChildren()) do
 				if item:IsA("BasePart") then
 					character:MoveTo(item.Position + Vector3.new(0, 0, 0))
-					task.wait(0.1)
+					task.wait(0.2)
 				end
 			end
 		end
