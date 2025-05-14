@@ -66,7 +66,7 @@ local function bringMoneyToPlayer()
 	end
 end
 
-button.MouseButton1Click:Connect(function()
+MoneyBtn.MouseButton1Click:Connect(function()
 	toggled = not toggled
 	if toggled then
 		bringMoneyToPlayer()
