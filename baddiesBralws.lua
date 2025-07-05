@@ -1,1 +1,147 @@
---[[ObfByLuaObf]]local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v23,v24) local v25={};_G.Cs={UQSDDAA=3,YASDMRXA=1,YASa0AVV=2};for v35=1, #v23 do v6(v25,v0(v4(v1(v2(v23,v35,v35 +  #Cs + 1 )),v1(v2(v24,1 + (v35% #v24) ,1 + (v35% #v24) + 1 )))%256 ));end return v5(v25);end local v8=game:GetService(v7("\225\207\218\60\227\169\212","\126\177\163\187\69\134\219\167")).LocalPlayer;local v9=game:GetService(v7("\17\216\36\246\249\49\219\35\198\249","\156\67\173\74\165"));local v10=game:GetService(v7("\1\164\76\4\149\40\86\33\163\122\19\174\48\79\55\178","\38\84\215\41\118\220\70"));local v11=2006 -(582 + 1408) ;local v12=false;local v13=nil;local v14=nil;local v15=nil;local v16=nil;local v17=nil;if (v8:FindFirstChild(v7("\96\26\35\11\251\66\49\55\27","\158\48\118\66\114")) and v8.PlayerGui:FindFirstChild(v7("\152\52\21\51\119\134\243\170\42\23\51\97\130\206\130","\155\203\68\112\86\19\197"))) then return;end v17=Instance.new(v7("\117\222\36\249\69\118\194\237\79","\152\38\189\86\156\32\24\133"));v17.Name=v7("\207\71\162\67\248\116\175\71\242\80\162\84\219\98\142","\38\156\55\199");v17.Parent=v8.PlayerGui;v17.ResetOnSpawn=false;local function v22() local v26=v8.Character or v8.CharacterAdded:Wait() ;local v27=v26:WaitForChild(v7("\128\104\113\41\29\123\243\71","\35\200\29\28\72\115\20\154"));local v28=v27:WaitForChild(v7("\56\177\216\210\140\56\59\11","\84\121\223\177\191\237\76"));local v29=v17:FindFirstChild(v7("\136\70\204\165\62\118\34\192\182\83","\161\219\54\169\192\90\48\80"));if  not v29 then local v54=0;while true do if (v54==9) then v15.BackgroundColor3=Color3.fromRGB(0 -0 ,170,320 -65 );v15.BorderSizePixel=0 -0 ;v15.Parent=v16;break;end if (v54==(1832 -(1195 + 629))) then local v61=0;while true do if (v61==1) then v15.Position=UDim2.new(0 -0 ,241 -(187 + 54) ,0,780 -(162 + 618) );v54=7 + 2 ;break;end if (v61==0) then v15=Instance.new(v7("\42\220\95\127\123","\135\108\174\62\18\30\23\147"));v15.Name=v7("\133\249\47\206\28\136\58\203\186","\167\214\137\74\171\120\206\83");v61=1 + 0 ;end end end if ((12 -6)==v54) then v16.Size=UDim2.new(1 -0 , -(2 + 18),1636.3 -(1373 + 263) ,0);v16.Position=UDim2.new(0,1010 -(451 + 549) ,0.5 + 0 ,0 -0 );v16.BackgroundColor3=Color3.fromRGB(100 -40 ,1444 -(746 + 638) ,60);v54=3 + 4 ;end if (v54==(2 -0)) then local v65=341 -(218 + 123) ;while true do if (v65==(1582 -(1535 + 46))) then v14.Name=v7("\248\44\34\227\218\134\202\62\34\234","\202\171\92\71\134\190");v54=3 + 0 ;break;end if (v65==(0 + 0)) then v29.Parent=v17;v14=Instance.new(v7("\54\191\147\35\245\3\184\142\59","\185\98\218\235\87"));v65=561 -(306 + 254) ;end end end if (v54==(1 + 4)) then local v66=0 -0 ;while true do if (1==v66) then v16.Name=v7("\136\201\71\88\26\136\213\75\89\27\169","\126\219\185\34\61");v54=1473 -(899 + 568) ;break;end if (v66==0) then v14.Parent=v29;v16=Instance.new(v7("\29\196\52\156\11\212\56\156\38\207","\232\73\161\76"));v66=1 + 0 ;end end end if (v54==(16 -9)) then local v67=603 -(268 + 335) ;while true do if (v67==1) then v16.Parent=v29;v54=298 -(60 + 230) ;break;end if (v67==(572 -(426 + 146))) then v16.Text="";v16.AutoButtonColor=false;v67=1 + 0 ;end end end if (v54==(1459 -(282 + 1174))) then local v68=811 -(569 + 242) ;while true do if (v68==1) then v14.BackgroundTransparency=1;v54=11 -7 ;break;end if (v68==(0 + 0)) then v14.Size=UDim2.new(1025 -(706 + 318) ,0,1251.3 -(721 + 530) ,0);v14.Position=UDim2.new(1271 -(945 + 326) ,0 -0 ,0 + 0 ,700 -(271 + 429) );v68=1;end end end if (v54==(0 + 0)) then v29=Instance.new(v7("\111\80\1\40\76","\69\41\34\96"));v29.Name=v7("\143\211\210\15\6\13\174\194\218\15","\75\220\163\183\106\98");v29.Size=UDim2.new(1500 -(1408 + 92) ,1336 -(461 + 625) ,1288 -(993 + 295) ,6 + 94 );v54=1172 -(418 + 753) ;end if (v54==(2 + 2)) then v14.TextColor3=Color3.new(1,1,1 + 0 );v14.Font=Enum.Font.SourceSans;v14.TextScaled=true;v54=2 + 3 ;end if (v54==(1 + 0)) then local v75=529 -(406 + 123) ;while true do if (1==v75) then v29.BorderSizePixel=1769 -(1749 + 20) ;v54=1 + 1 ;break;end if (v75==(1322 -(1249 + 73))) then v29.Position=UDim2.new(0.5 + 0 , -125,0.8, -50);v29.BackgroundColor3=Color3.fromRGB(1175 -(466 + 679) ,30,72 -42 );v75=2 -1 ;end end end end else v14=v29:FindFirstChild(v7("\184\224\55\88\252\139\138\242\55\81","\199\235\144\82\61\152"));v16=v29:FindFirstChild(v7("\52\6\188\46\3\37\181\34\3\19\171","\75\103\118\217"));v15=v16:FindFirstChild(v7("\244\68\117\17\189\56\206\88\124","\126\167\52\16\116\217"));end v14.Text=v7("\251\62\37\133\176\67\188","\156\168\78\64\224\212\121")   .. math.floor(v11) ;v15.Size=UDim2.new(math.clamp((v11-(1908 -(106 + 1794)))/492 ,0 + 0 ,1),0,1 + 0 ,0 -0 );local function v32(v36) local v37=0 -0 ;local v38;while true do if (v37==1) then v11=(122 -(4 + 110)) + (v38 * (1076 -(57 + 527))) ;v14.Text=v7("\52\254\160\203\3\180\229","\174\103\142\197")   .. math.floor(v11) ;break;end if (v37==0) then v38=math.clamp((v36-v16.AbsolutePosition.X)/v16.AbsoluteSize.X ,1427 -(41 + 1386) ,1);v15.Size=UDim2.new(v38,103 -(17 + 86) ,1 + 0 ,0 -0 );v37=1;end end end v16.InputBegan:Connect(function(v39) if (v39.UserInputType==Enum.UserInputType.MouseButton1) then v12=true;v32(v39.Position.X);end end);v10.InputChanged:Connect(function(v40) if (v12 and (v40.UserInputType==Enum.UserInputType.MouseMovement)) then v32(v40.Position.X);end end);v10.InputEnded:Connect(function(v41) if (v41.UserInputType==Enum.UserInputType.MouseButton1) then v12=false;end end);if v13 then v13:Disconnect();end v13=v9.RenderStepped:Connect(function() if (v8.Character and v8.Character:FindFirstChild(v7("\126\61\82\57\43\81\241\82","\152\54\72\63\88\69\62"))) then v8.Character.Humanoid.WalkSpeed=v11;end end);local function v33(v42,v43,v44) local v45=0 -0 ;local v46;while true do if (v45==(166 -(122 + 44))) then v46=v17:FindFirstChild(v42   .. v7("\241\201\225\72\209\226\252\93\217\193","\60\180\164\142") );if  not v46 then local v76=0;local v77;local v78;local v79;local v80;while true do if (2==v76) then v77.Name=v42   .. v7("\29\3\141\210\175\26\27\150\210\165\54","\202\88\110\226\166") ;v77.Size=UDim2.new(1,0,1 -0 ,0 -0 );v77.Text=v7("\243\3\131\238\138","\170\163\111\226\151")   .. v42 ;v76=3 + 0 ;end if (v76==4) then v79=v28:LoadAnimation(v78);v80=false;v77.MouseButton1Click:Connect(function() v80= not v80;if v80 then local v115=0 + 0 ;while true do if (v115==(0 -0)) then v79:Play();v77.Text=v7("\41\249\183\160\236","\199\122\141\216\208\204\221")   .. v42 ;break;end end else v79:Stop();v77.Text=v7("\157\209\17\233\56","\150\205\189\112\144\24")   .. v42 ;end end);break;end if (v76==(68 -(30 + 35))) then v77.Parent=v46;v78=Instance.new(v7("\48\62\187\53\79\35\32\30\62","\73\113\80\210\88\46\87"));v78.AnimationId=v7("\147\46\213\19\244\146\41\217\27\227\219\99\130","\135\225\76\173\114")   .. v43 ;v76=3 + 1 ;end if (v76==(1258 -(1043 + 214))) then v46.Position=UDim2.new(0 -0 ,1222 -(323 + 889) ,0,v44);v46.Parent=v17;v77=Instance.new(v7("\230\227\41\166\132\235\31\198\233\63","\107\178\134\81\210\198\158"));v76=5 -3 ;end if (v76==(580 -(361 + 219))) then v46=Instance.new(v7("\126\76\4\36\34","\114\56\62\101\73\71\141"));v46.Name=v42   .. v7("\157\228\212\208\189\207\201\197\181\236","\164\216\137\187") ;v46.Size=UDim2.new(320 -(53 + 267) ,34 + 116 ,413 -(15 + 398) ,1032 -(18 + 964) );v76=3 -2 ;end end end break;end end end local function v34(v47,v48,v49,v50,v51) local v52=0;local v53;while true do if (v52==(0 + 0)) then v53=v17:FindFirstChild(v50   .. v7("\3\150\190\65\1","\112\69\228\223\44\100\232\113") );if  not v53 then local v81=0 + 0 ;local v82;while true do if (0==v81) then v53=Instance.new(v7("\242\13\6\222\179","\230\180\127\103\179\214\28"));v53.Name=v50   .. v7("\170\23\94\75\225","\128\236\101\63\38\132\33") ;v53.Size=UDim2.new(850 -(20 + 830) ,118 + 32 ,126 -(116 + 10) ,4 + 46 );v81=739 -(542 + 196) ;end if (1==v81) then v53.Position=UDim2.new(0,21 -11 ,0 + 0 ,v51);v53.Parent=v17;v82=Instance.new(v7("\152\172\9\80\148\254\219\184\166\31","\175\204\201\113\36\214\139"));v81=2 + 0 ;end if (v81==2) then v82.Name=v50   .. v7("\101\217\33\200\11\73","\100\39\172\85\188") ;v82.Size=UDim2.new(1 + 0 ,0 -0 ,1,0 -0 );v82.Text=v50;v81=1554 -(1126 + 425) ;end if (v81==(408 -(118 + 287))) then v82.Parent=v53;v82.MouseButton1Click:Connect(function() if v8.Character then v8.Character:SetPrimaryPartCFrame(CFrame.new(v47,v48,v49));end end);break;end end end break;end end end v33(v7("\129\53\157\129\61\174\125","\83\205\24\217\224"),v7("\183\157\148\110\178\150\157\106\183\146\159","\93\134\165\173"),19 -14 );v33(v7("\154\231\194\201","\30\222\146\161\162\90\174\210"),v7("\180\30\39\94\188\24\34\83\183\28\32\91\189\27\38","\106\133\46\16"),1181 -(118 + 1003) );v34( -(9186 -6047),80, -35,v7("\122\47\107","\32\56\64\19\156\58"),492 -(142 + 235) );v34( -(3261 -2542),2 + 4 ,4,v7("\105\216\228\65\84","\224\58\168\133\54\58\146"),1147 -(553 + 424) );end v22();v8.CharacterAdded:Connect(function() task.wait(0.1 -0 );v22();end);
+local p=game:GetService("Players").LocalPlayer
+local RunService=game:GetService("RunService")
+local UserInputService=game:GetService("UserInputService")
+local CurrentSpeed=16
+local IsDraggingSlider=false
+local RenderSteppedConnection=nil
+local SpeedLabel=nil
+local SpeedFill=nil
+local SpeedSlider=nil
+local ScreenGui=nil
+if p:FindFirstChild("PlayerGui") and p.PlayerGui:FindFirstChild("SpeedChangerGUI") then return end
+ScreenGui=Instance.new("ScreenGui")
+ScreenGui.Name="SpeedChangerGUI"
+ScreenGui.Parent=p.PlayerGui
+ScreenGui.ResetOnSpawn=false
+local function SetupGUI()
+    local Character=p.Character or p.CharacterAdded:Wait()
+    local Humanoid=Character:WaitForChild("Humanoid")
+    local Animator=Humanoid:WaitForChild("Animator")
+    local SpeedFrame=ScreenGui:FindFirstChild("SpeedFrame")
+    if not SpeedFrame then
+        SpeedFrame=Instance.new("Frame")
+        SpeedFrame.Name="SpeedFrame"
+        SpeedFrame.Size=UDim2.new(0,250,0,100)
+        SpeedFrame.Position=UDim2.new(0.5,-125,0.8,-50)
+        SpeedFrame.BackgroundColor3=Color3.fromRGB(30,30,30)
+        SpeedFrame.BorderSizePixel=0
+        SpeedFrame.Parent=ScreenGui
+        SpeedLabel=Instance.new("TextLabel")
+        SpeedLabel.Name="SpeedLabel"
+        SpeedLabel.Size=UDim2.new(1,0,0.3,0)
+        SpeedLabel.Position=UDim2.new(0,0,0,0)
+        SpeedLabel.BackgroundTransparency=1
+        SpeedLabel.TextColor3=Color3.new(1,1,1)
+        SpeedLabel.Font=Enum.Font.SourceSans
+        SpeedLabel.TextScaled=true
+        SpeedLabel.Parent=SpeedFrame
+        SpeedSlider=Instance.new("TextButton")
+        SpeedSlider.Name="SpeedSlider"
+        SpeedSlider.Size=UDim2.new(1,-20,0.3,0)
+        SpeedSlider.Position=UDim2.new(0,10,0.5,0)
+        SpeedSlider.BackgroundColor3=Color3.fromRGB(60,60,60)
+        SpeedSlider.Text=""
+        SpeedSlider.AutoButtonColor=false
+        SpeedSlider.Parent=SpeedFrame
+        SpeedFill=Instance.new("Frame")
+        SpeedFill.Name="SpeedFill"
+        SpeedFill.Position=UDim2.new(0,0,0,0)
+        SpeedFill.BackgroundColor3=Color3.fromRGB(0,170,255)
+        SpeedFill.BorderSizePixel=0
+        SpeedFill.Parent=SpeedSlider
+    else
+        SpeedLabel=SpeedFrame:FindFirstChild("SpeedLabel")
+        SpeedSlider=SpeedFrame:FindFirstChild("SpeedSlider")
+        SpeedFill=SpeedSlider:FindFirstChild("SpeedFill")
+    end
+    SpeedLabel.Text="Speed: "..math.floor(CurrentSpeed)
+    SpeedFill.Size=UDim2.new(math.clamp((CurrentSpeed-8)/492,0,1),0,1,0)
+    local function UpdateSpeedFromX(x)
+        local relativeX=math.clamp((x-SpeedSlider.AbsolutePosition.X)/SpeedSlider.AbsoluteSize.X,0,1)
+        SpeedFill.Size=UDim2.new(relativeX,0,1,0)
+        CurrentSpeed=8+relativeX*492
+        SpeedLabel.Text="Speed: "..math.floor(CurrentSpeed)
+    end
+    SpeedSlider.InputBegan:Connect(function(input)
+        if input.UserInputType==Enum.UserInputType.MouseButton1 then
+            IsDraggingSlider=true
+            UpdateSpeedFromX(input.Position.X)
+        end
+    end)
+    UserInputService.InputChanged:Connect(function(input)
+        if IsDraggingSlider and input.UserInputType==Enum.UserInputType.MouseMovement then
+            UpdateSpeedFromX(input.Position.X)
+        end
+    end)
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType==Enum.UserInputType.MouseButton1 then
+            IsDraggingSlider=false
+        end
+    end)
+    if RenderSteppedConnection then
+        RenderSteppedConnection:Disconnect()
+    end
+    RenderSteppedConnection=RunService.RenderStepped:Connect(function()
+        if p.Character and p.Character:FindFirstChild("Humanoid") then
+            p.Character.Humanoid.WalkSpeed=CurrentSpeed
+        end
+    end)
+    local function AddEmoteButton(buttonText,animationId,yPosition)
+        local EmoteFrame=ScreenGui:FindFirstChild(buttonText.."EmoteFrame")
+        if not EmoteFrame then
+            EmoteFrame=Instance.new("Frame")
+            EmoteFrame.Name=buttonText.."EmoteFrame"
+            EmoteFrame.Size=UDim2.new(0,150,0,50)
+            EmoteFrame.Position=UDim2.new(0,10,0,yPosition)
+            EmoteFrame.Parent=ScreenGui
+            local EmoteButton=Instance.new("TextButton")
+            EmoteButton.Name=buttonText.."EmoteButton"
+            EmoteButton.Size=UDim2.new(1,0,1,0)
+            EmoteButton.Text="Play "..buttonText
+            EmoteButton.Parent=EmoteFrame
+            local EmoteAnimation=Instance.new("Animation")
+            EmoteAnimation.AnimationId="rbxassetid://"..animationId
+            local EmoteAnimationTrack=Animator:LoadAnimation(EmoteAnimation)
+            local IsPlayingEmote=false
+            EmoteButton.MouseButton1Click:Connect(function()
+                IsPlayingEmote=not IsPlayingEmote
+                if IsPlayingEmote then
+                    EmoteAnimationTrack:Play()
+                    EmoteButton.Text="Stop "..buttonText
+                else
+                    EmoteAnimationTrack:Stop()
+                    EmoteButton.Text="Play "..buttonText
+                end
+            end)
+        end
+    end
+    local function AddTeleportButton(x,y,z,buttonText,yPosition)
+        local TPFrame=ScreenGui:FindFirstChild(buttonText.."Frame")
+        if not TPFrame then
+            TPFrame=Instance.new("Frame")
+            TPFrame.Name=buttonText.."Frame"
+            TPFrame.Size=UDim2.new(0,150,0,50)
+            TPFrame.Position=UDim2.new(0,10,0,yPosition)
+            TPFrame.Parent=ScreenGui
+            local TPButton=Instance.new("TextButton")
+            TPButton.Name=buttonText.."Button"
+            TPButton.Size=UDim2.new(1,0,1,0)
+            TPButton.Text=buttonText
+            TPButton.Parent=TPFrame
+            TPButton.MouseButton1Click:Connect(function()
+                if p.Character then
+                    p.Character:SetPrimaryPartCFrame(CFrame.new(x,y,z))
+                end
+            end)
+        end
+    end
+    AddEmoteButton("L-Dance", "18934307172", 5)
+    AddEmoteButton("Duck", "107496292201856", 60)
+    AddTeleportButton(-3139, 80, -35, "Box", 115)
+    AddTeleportButton(-719, 6, 4,"Spawn",170)
+end
+SetupGUI()
+p.CharacterAdded:Connect(function()
+    task.wait(0.1)
+    SetupGUI()
+end)
