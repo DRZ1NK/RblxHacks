@@ -162,9 +162,9 @@ local function SetupGUI()
         end
     end
 
-    AddEmoteButton("Kick", "18934307172", 5)
-    AddEmoteButton("Emote", "107496292201856", 60)
-    AddTeleportButton(-3139, 80, -35, "Teleport", 115)
+    AddEmoteButton("L-Dance", "18934307172", 5)
+    AddEmoteButton("Duck", "107496292201856", 60)
+    AddTeleportButton(-3139, 80, -35, "Box", 115)
     AddTeleportButton(-719, 6, 4,"Spawn",170)
 end
 
