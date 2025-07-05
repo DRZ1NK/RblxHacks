@@ -1,1 +1,121 @@
-local v0=game.Players.LocalPlayer;local function v1() local v2=v0:WaitForChild("PlayerGui"):FindFirstChild("SpeedChangerGUI") or Instance.new("ScreenGui",v0.PlayerGui) ;v2.Name="SpeedChangerGUI";local v4=v0.Character or v0.CharacterAdded:Wait() ;local v5=v4:WaitForChild("Humanoid");local v6=v5:WaitForChild("Animator");local v7=Instance.new("Frame",v2);v7.Size=UDim2.new(586 -(103 + 483) ,485 -(23 + 212) ,0,41 + 59 );v7.Position=UDim2.new(0.5, -125,0.8, -(1896 -(1228 + 618)));v7.BackgroundColor3=Color3.fromRGB(60 -30 ,119 -89 ,982 -(802 + 150) );v7.BorderSizePixel=0 -0 ;local v12=Instance.new("TextLabel",v7);v12.Size=UDim2.new(1,0,0.3 -0 ,0);v12.Text="Speed: 16";v12.Position=UDim2.new(0,0 + 0 ,997 -(915 + 82) ,0 -0 );v12.BackgroundTransparency=1 + 0 ;v12.TextColor3=Color3.new(1,1 -0 ,1188 -(1069 + 118) );v12.Font=Enum.Font.SourceSans;v12.TextScaled=true;local v21=Instance.new("TextButton",v7);v21.Size=UDim2.new(2 -1 , -(43 -23),0.3 + 0 ,0);v21.Position=UDim2.new(0 -0 ,10 + 0 ,791.5 -(368 + 423) ,0);v21.BackgroundColor3=Color3.fromRGB(60,188 -128 ,60);v21.Text="";v21.AutoButtonColor=false;local v27=Instance.new("Frame",v21);v27.Size=UDim2.new(0.5,18 -(10 + 8) ,3 -2 ,0);v27.Position=UDim2.new(442 -(416 + 26) ,0,0 -0 ,0);v27.BackgroundColor3=Color3.fromRGB(0 + 0 ,300 -130 ,693 -(145 + 293) );v27.BorderSizePixel=430 -(44 + 386) ;local v32=game:GetService("UserInputService");local v33=false;local v34=1502 -(998 + 488) ;local function v35(v39) local v40=0;local v41;while true do if (v40==(1 + 0)) then v34=7 + 1 + (v41 * (864 -(201 + 571))) ;v12.Text="Speed: "   .. math.floor(v34) ;break;end if (v40==(1138 -(116 + 1022))) then local v61=0 -0 ;while true do if (v61==(0 + 0)) then v41=math.clamp((v39-v21.AbsolutePosition.X)/v21.AbsoluteSize.X ,0 -0 ,3 -2 );v27.Size=UDim2.new(v41,859 -(814 + 45) ,2 -1 ,0);v61=1 + 0 ;end if (v61==(1 + 0)) then v40=886 -(261 + 624) ;break;end end end end end v21.InputBegan:Connect(function(v42) if (v42.UserInputType==Enum.UserInputType.MouseButton1) then v33=true;v35(v42.Position.X);end end);v32.InputChanged:Connect(function(v43) if (v33 and (v43.UserInputType==Enum.UserInputType.MouseMovement)) then v35(v43.Position.X);end end);v32.InputEnded:Connect(function(v44) if (v44.UserInputType==Enum.UserInputType.MouseButton1) then v33=false;end end);game:GetService("RunService").RenderStepped:Connect(function() if v5 then v5.WalkSpeed=v34;end end);local function v36(v45,v46,v47) local v48=Instance.new("Frame",v2);v48.Size=UDim2.new(0 -0 ,1230 -(1020 + 60) ,1423 -(630 + 793) ,50);v48.Position=UDim2.new(0 -0 ,v47,0 -0 ,10);local v51=Instance.new("TextButton",v48);v51.Size=UDim2.new(1,0,1 + 0 ,0);v51.Text="Play "   .. v45 ;local v54=Instance.new("Animation");v54.AnimationId="rbxassetid://"   .. v46 ;local v56=v6:LoadAnimation(v54);local v57=false;v51.MouseButton1Click:Connect(function() local v58=0 -0 ;while true do if (v58==(1747 -(760 + 987))) then v57= not v57;if v57 then local v63=1913 -(1789 + 124) ;while true do if (v63==0) then v56:Play();v51.Text="Stop "   .. v45 ;break;end end else local v64=0;while true do if (v64==0) then v56:Stop();v51.Text="Play "   .. v45 ;break;end end end break;end end end);end v36("Kick","18934307172",776 -(745 + 21) );v36("Emote","107496292201856",70);end v1();v0.CharacterAdded:Connect(function() local v37=0;local v38;while true do if (v37==0) then v38=0 + 0 ;while true do if (v38==(0 -0)) then task.wait(3 -2 );v1();break;end end break;end end end);
+local p = game.Players.LocalPlayer
+local runService = game:GetService("RunService")
+local uis = game:GetService("UserInputService")
+
+-- Remove existing GUI and disconnect old RenderStepped if any
+if p:FindFirstChild("PlayerGui") then
+    local oldGui = p.PlayerGui:FindFirstChild("SpeedChangerGUI")
+    if oldGui then oldGui:Destroy() end
+end
+
+local connection -- will hold RenderStepped connection
+
+local g = Instance.new("ScreenGui", p.PlayerGui)
+g.Name = "SpeedChangerGUI"
+
+local spd = 16
+local dragging = false
+
+local function setup()
+    local c = p.Character or p.CharacterAdded:Wait()
+    local h = c:WaitForChild("Humanoid")
+    local a = h:WaitForChild("Animator")
+
+    -- Create main frame
+    local f1 = Instance.new("Frame", g)
+    f1.Size = UDim2.new(0, 250, 0, 100)
+    f1.Position = UDim2.new(0.5, -125, 0.8, -50)
+    f1.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    f1.BorderSizePixel = 0
+
+    -- Label showing speed
+    local l = Instance.new("TextLabel", f1)
+    l.Size = UDim2.new(1, 0, 0.3, 0)
+    l.Text = "Speed: 16"
+    l.Position = UDim2.new(0, 0, 0, 0)
+    l.BackgroundTransparency = 1
+    l.TextColor3 = Color3.new(1, 1, 1)
+    l.Font = Enum.Font.SourceSans
+    l.TextScaled = true
+
+    -- Slider button
+    local s = Instance.new("TextButton", f1)
+    s.Size = UDim2.new(1, -20, 0.3, 0)
+    s.Position = UDim2.new(0, 10, 0.5, 0)
+    s.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    s.Text = ""
+    s.AutoButtonColor = false
+
+    -- Fill inside slider
+    local fill = Instance.new("Frame", s)
+    fill.Size = UDim2.new((spd - 8) / 492, 0, 1, 0)
+    fill.Position = UDim2.new(0, 0, 0, 0)
+    fill.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+    fill.BorderSizePixel = 0
+
+    local function updateSpeedFromX(x)
+        local relativeX = math.clamp((x - s.AbsolutePosition.X) / s.AbsoluteSize.X, 0, 1)
+        fill.Size = UDim2.new(relativeX, 0, 1, 0)
+        spd = 8 + relativeX * 492
+        l.Text = "Speed: " .. math.floor(spd)
+    end
+
+    s.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            updateSpeedFromX(input.Position.X)
+        end
+    end)
+    uis.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            updateSpeedFromX(input.Position.X)
+        end
+    end)
+    uis.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+
+    -- Disconnect old connection if exists
+    if connection then connection:Disconnect() end
+
+    -- Update WalkSpeed every frame
+    connection = runService.RenderStepped:Connect(function()
+        if h then h.WalkSpeed = spd end
+    end)
+
+    -- Function to add animation buttons
+    local function addBtn(txt, id, y)
+        local f = Instance.new("Frame", g)
+        f.Size = UDim2.new(0, 150, 0, 50)
+        f.Position = UDim2.new(0, 10, 0, y)
+        local b = Instance.new("TextButton", f)
+        b.Size = UDim2.new(1, 0, 1, 0)
+        b.Text = "Play " .. txt
+        local anim = Instance.new("Animation")
+        anim.AnimationId = "rbxassetid://" .. id
+        local track = a:LoadAnimation(anim)
+        local playing = false
+        b.MouseButton1Click:Connect(function()
+            playing = not playing
+            if playing then
+                track:Play()
+                b.Text = "Stop " .. txt
+            else
+                track:Stop()
+                b.Text = "Play " .. txt
+            end
+        end)
+    end
+
+    addBtn("Kick", "18934307172", 5)
+    addBtn("Emote", "107496292201856", 60)
+end
+
+setup()
+
+p.CharacterAdded:Connect(function()
+    task.wait(1)
+    setup()
+end)
