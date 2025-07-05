@@ -1,12 +1,16 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
-local animator = humanoid:WaitForChild("Animator")
-local kickAnimation = Instance.new("Animation")
-kickAnimation.AnimationId = "rbxassetid://18934307172"
-local kickAnimationTrack = animator:LoadAnimation(kickAnimation)
-kickAnimationTrack:Play()
+local p=game:GetService("Players").LocalPlayer
+local c=p.Character or p.CharacterAdded:Wait()
+local a=c:WaitForChild("Humanoid"):WaitForChild("Animator")
+local t=script.Parent
+local anim=Instance.new("Animation")
+anim.AnimationId="rbxassetid://18934307172"
+local track=a:LoadAnimation(anim)
+local playing=false
+t.Text="Play"
+t.MouseButton1Click:Connect(function()
+	playing=not playing
+	if playing then track:Play() t.Text="Stop" else track:Stop() t.Text="Play" end
+end)
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
