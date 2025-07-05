@@ -1,15 +1,14 @@
 local p=game:GetService("Players").LocalPlayer
 local c=p.Character or p.CharacterAdded:Wait()
 local a=c:WaitForChild("Humanoid"):WaitForChild("Animator")
-local t=script.Parent
-local anim=Instance.new("Animation")
-anim.AnimationId="rbxassetid://18934307172"
-local track=a:LoadAnimation(anim)
-local playing=false
-t.Text="Play"
-t.MouseButton1Click:Connect(function()
+local gui=p:WaitForChild("PlayerGui"):WaitForChild("SpeedChangerGUI")
+local f=Instance.new("Frame",gui) f.Size=UDim2.new(0,150,0,50) f.Position=UDim2.new(0,10,0,10)
+local b=Instance.new("TextButton",f) b.Size=UDim2.new(1,0,1,0) b.Text="Play Kick"
+local anim=Instance.new("Animation") anim.AnimationId="rbxassetid://18934307172"
+local track=a:LoadAnimation(anim) local playing=false
+b.MouseButton1Click:Connect(function()
 	playing=not playing
-	if playing then track:Play() t.Text="Stop" else track:Stop() t.Text="Play" end
+	if playing then track:Play() b.Text="Stop" else track:Stop() b.Text="Play" end
 end)
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
