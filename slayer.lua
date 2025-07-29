@@ -55,13 +55,6 @@ local ShowSpeed = Instance.new("TextLabel")
 ShowSpeed.Parent = MainFrame
 ShowSpeed.Position = UDim2.new(0,0,0.669,0)
 ShowSpeed.Size = UDim2.new(0, 99, 0, 24)
-runservice.Heartbeat:Connect(function()
-	if humanoid then
-		ShowSpeed.Text = "Speed: " .. tostring(math.floor(humanoid.WalkSpeed))
-	else
-		ShowSpeed.Text = "Speed: N/A"
-	end
-end)
 
 local AddSpeed = Instance.new("TextButton")
 AddSpeed.Parent = MainFrame
@@ -118,12 +111,16 @@ SubFov.MouseButton1Click:Connect(function()
 end)
 
 -- Speed
-local humanoid = humanoid
+local humanoid
 local lockedSpeed = 16
 local minSpeed, maxSpeed = 4, 100
 local speedStep = 4
 
--- Function to update speed on current humanoid
+local function onCharacterAdded(character)
+	humanoid = character:WaitForChild("Humanoid")
+	humanoid.WalkSpeed = lockedSpeed
+end
+
 local function updateSpeed(newSpeed)
 	lockedSpeed = math.clamp(newSpeed, minSpeed, maxSpeed)
 	if humanoid then
@@ -139,9 +136,23 @@ SubSpeed.MouseButton1Click:Connect(function()
 	updateSpeed(lockedSpeed - speedStep)
 end)
 
+if player.Character then
+	onCharacterAdded(player.Character)
+end
+
+player.CharacterAdded:Connect(onCharacterAdded)
+
 runservice.RenderStepped:Connect(function()
 	if humanoid and humanoid.WalkSpeed ~= lockedSpeed then
 		humanoid.WalkSpeed = lockedSpeed
+	end
+end)
+
+runservice.Heartbeat:Connect(function()
+	if humanoid then
+		ShowSpeed.Text = "Speed: " .. tostring(math.floor(humanoid.WalkSpeed))
+	else
+		ShowSpeed.Text = "Speed: N/A"
 	end
 end) -- speed end
 
@@ -189,14 +200,13 @@ local function setupAnimButtons()
 	end))
 end
 
-local function onCharacterAdded(character)
+local function onCharacterAdded1(character)
 	humanoid = character:WaitForChild("Humanoid")
-	humanoid.WalkSpeed = lockedSpeed
 	setupAnimButtons()
 end
 
 if player.Character then
-	onCharacterAdded(player.Character)
+	onCharacterAdded1(player.Character)
 end
 
-player.CharacterAdded:Connect(onCharacterAdded)
+player.CharacterAdded:Connect(onCharacterAdded1)
