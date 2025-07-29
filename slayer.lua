@@ -7,6 +7,7 @@ local items = rep:WaitForChild("Items")
 local emotes = items:WaitForChild("Emotes")
 local camera = workspace.CurrentCamera
 local runservice = game:GetService("RunService")
+local Players = game:GetService("Players")
 
 runservice.RenderStepped:Connect(function()
 	player.Stats.Stamina.Value = 100
@@ -50,6 +51,12 @@ ShowFov.Size = UDim2.new(0, 99, 0, 24)
 runservice.Heartbeat:Connect(function()
 	ShowFov.Text = "Fov: " .. camera.FieldOfView
 end)
+
+local espButton = Instance.new("TextButton")
+espButton.Parent = MainFrame
+espButton.Position = UDim2.new(0,0,0.490,0)
+espButton.Text = "ESP"
+espButton.Size = UDim2.new(0, 99, 0, 24)
 
 local ShowSpeed = Instance.new("TextLabel")
 ShowSpeed.Parent = MainFrame
@@ -210,3 +217,68 @@ if player.Character then
 end
 
 player.CharacterAdded:Connect(onCharacterAdded1)
+
+local highlightEnabled = false
+local highlights = {}
+
+local function addHighlightToCharacter(character)
+	if not highlights[character] then
+		local highlight = Instance.new("Highlight")
+		highlight.FillColor = Color3.new(1, 1, 1)
+		highlight.OutlineColor = Color3.new(0, 0, 0)
+		highlight.Parent = character
+		highlights[character] = highlight
+	end
+end
+
+local function removeHighlightFromCharacter(character)
+	if highlights[character] then
+		highlights[character]:Destroy()
+		highlights[character] = nil
+	end
+end
+
+local function toggleHighlights()
+	highlightEnabled = not highlightEnabled
+
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer and player.Character then
+			if highlightEnabled then
+				addHighlightToCharacter(player.Character)
+			else
+				removeHighlightFromCharacter(player.Character)
+			end
+		end
+	end
+
+	if highlightEnabled then
+		toggleButton.Text = "Highlights: ON"
+	else
+		toggleButton.Text = "Highlights: OFF"
+	end
+end
+
+espButton.MouseButton1Click:Connect(toggleHighlights)
+
+Players.PlayerAdded:Connect(function(player)
+	if player ~= LocalPlayer then
+		player.CharacterAdded:Connect(function(character)
+			if highlightEnabled then
+				addHighlightToCharacter(character)
+			end
+		end)
+	end
+end)
+
+for _, player in ipairs(Players:GetPlayers()) do
+	if player ~= LocalPlayer then
+		player.CharacterAdded:Connect(function(character)
+			if highlightEnabled then
+				addHighlightToCharacter(character)
+			end
+		end)
+		if player.Character and highlightEnabled then
+			addHighlightToCharacter(player.Character)
+		end
+	end
+end
