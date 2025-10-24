@@ -54,9 +54,15 @@ end)
 
 local espButton = Instance.new("TextButton")
 espButton.Parent = MainFrame
-espButton.Position = UDim2.new(0,0,0.490,0)
+espButton.Position = UDim2.new(0,0,0.43,0)
 espButton.Text = "ESP"
 espButton.Size = UDim2.new(0, 99, 0, 24)
+
+local exposeButton = Instance.new("TextButton")
+exposeButton.Parent = MainFrame
+exposeButton.Position = UDim2.new(0,0,0.5,0)
+exposeButton.Text = "Expose"
+exposeButton.Size = UDim2.new(0, 99, 0, 24)
 
 local ShowSpeed = Instance.new("TextLabel")
 ShowSpeed.Parent = MainFrame
@@ -100,7 +106,7 @@ anim3.Text = "Electro Shuffle"
 local anim4 = Instance.new("TextButton")
 anim4.Parent = MainFrame
 anim4.Size = UDim2.new(0, 99, 0, 27)
-anim4.Position = UDim2.new(0, 0, 0.35, 0)
+anim4.Position = UDim2.new(0, 0, 0.342, 0)
 anim4.Text = "Worm"
 
 local fovStep = 10
@@ -117,7 +123,6 @@ SubFov.MouseButton1Click:Connect(function()
 	camera.FieldOfView = newFOV
 end)
 
--- Speed
 local humanoid
 local lockedSpeed = 16
 local minSpeed, maxSpeed = 4, 100
@@ -161,10 +166,8 @@ runservice.Heartbeat:Connect(function()
 	else
 		ShowSpeed.Text = "Speed: N/A"
 	end
-end) -- speed end
+end)
 
-
--- Animations
 local humanoid
 local connections1 = {}
 
@@ -177,28 +180,24 @@ end
 
 local function setupAnimButtons()
 	disconnectAll1()
-
 	table.insert(connections1, anim1.MouseButton1Click:Connect(function()
 		if humanoid then
 			local animationTrack = humanoid:LoadAnimation(emotes["Twist"])
 			animationTrack:Play()
 		end
 	end))
-
 	table.insert(connections1, anim2.MouseButton1Click:Connect(function()
 		if humanoid then
 			local animationTrack = humanoid:LoadAnimation(emotes["Take the L"])
 			animationTrack:Play()
 		end
 	end))
-
 	table.insert(connections1, anim3.MouseButton1Click:Connect(function()
 		if humanoid then
 			local animationTrack = humanoid:LoadAnimation(emotes["Electro Shuffle"])
 			animationTrack:Play()
 		end
 	end))
-
 	table.insert(connections1, anim4.MouseButton1Click:Connect(function()
 		if humanoid then
 			local animationTrack = humanoid:LoadAnimation(emotes["Worm"])
@@ -240,7 +239,6 @@ end
 
 local function toggleHighlights()
 	highlightEnabled = not highlightEnabled
-
 	for _, player in ipairs(Players:GetPlayers()) do
 		if player ~= LocalPlayer and player.Character then
 			if highlightEnabled then
@@ -250,7 +248,6 @@ local function toggleHighlights()
 			end
 		end
 	end
-
 	if highlightEnabled then
 		toggleButton.Text = "Highlights: ON"
 	else
@@ -282,3 +279,72 @@ for _, player in ipairs(Players:GetPlayers()) do
 		end
 	end
 end
+
+local exposeEnabled = false
+local exposeHighlights = {}
+
+local function removeExposeHighlights()
+	for _, h in pairs(exposeHighlights) do
+		if h and h.Parent then
+			h:Destroy()
+		end
+	end
+	exposeHighlights = {}
+end
+
+local function createHighlight(character, color)
+	local highlight = Instance.new("Highlight")
+	highlight.FillColor = color
+	highlight.OutlineColor = Color3.new(0, 0, 0)
+	highlight.Parent = character
+	exposeHighlights[character] = highlight
+end
+
+local function hasItem(player, itemName)
+	if player.Character then
+		for _, item in pairs(player.Character:GetChildren()) do
+			if item.Name == itemName then
+				return true
+			end
+		end
+	end
+	local backpack = player:FindFirstChild("Backpack")
+	if backpack then
+		for _, item in pairs(backpack:GetChildren()) do
+			if item.Name == itemName then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+local function exposePlayers()
+	removeExposeHighlights()
+	for _, plr in ipairs(Players:GetPlayers()) do
+		if plr ~= player and plr.Character then
+			local hasKnife = hasItem(plr, "Knife")
+			local hasRevolver = hasItem(plr, "Revolver")
+			if hasKnife then
+				createHighlight(plr.Character, Color3.new(1, 0, 0))
+			elseif hasRevolver then
+				createHighlight(plr.Character, Color3.new(0, 0, 1))
+			end
+		end
+	end
+end
+
+exposeButton.MouseButton1Click:Connect(function()
+	exposeEnabled = not exposeEnabled
+	if exposeEnabled then
+		exposeButton.Text = "Expose: ON"
+		exposePlayers()
+		while exposeEnabled do
+			exposePlayers()
+			task.wait(2)
+		end
+	else
+		exposeButton.Text = "Expose: OFF"
+		removeExposeHighlights()
+	end
+end)
