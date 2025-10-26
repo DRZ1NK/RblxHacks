@@ -17,18 +17,30 @@ local SlayerGui = Instance.new("ScreenGui")
 SlayerGui.Parent = playergui
 SlayerGui.ResetOnSpawn = false
 SlayerGui.IgnoreGuiInset = true
+SlayerGui.Name = "SlayerGui"
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Position = UDim2.new(0.064, 0, 0.303, 0)
 MainFrame.AnchorPoint = Vector2.new(0.5,0.5)
 MainFrame.Parent = SlayerGui
 MainFrame.Size = UDim2.new(0, 99, 0, 326)
-MainFrame.Draggable = true
-MainFrame.Active = true
+
+local AnimFrame = Instance.new("Frame")
+AnimFrame.Position = UDim2.new(0.064, 0, 0.303, 0)
+AnimFrame.AnchorPoint = Vector2.new(0.5,0.5)
+AnimFrame.Parent = SlayerGui
+AnimFrame.Size = UDim2.new(0, 99, 0, 326)
+AnimFrame.Visible = false
+
+local back = Instance.new("TextButton")
+back.Parent = MainFrame
+back.Size = UDim2.new(0, 99, 0, 27)
+back.Position = UDim2.new(0, 0, 0, 0)
+back.Text = "Back"
 
 local close = Instance.new("TextButton")
 close.Parent = MainFrame
-close.Position = UDim2.new(0.556,0,0,0)
+close.Position = UDim2.new(0.556,0,-0.106,0)
 close.Size = UDim2.new(0, 44, 0, 33)
 close.Text = "X"
 
@@ -85,26 +97,38 @@ close.MouseButton1Click:Connect(function()
 	SlayerGui:Destroy()
 end)
 
+back.MouseButton1Click:Connect(function()
+    if MainFrame.Visible then
+        AnimFrame.Visible = true
+        MainFrame.Visible = false
+        back.Parent = AnimFrame
+    else
+        AnimFrame.Visible = false
+        MainFrame.Visible = true
+        back.Parent = MainFrame
+    end
+end)
+
 local anim1 = Instance.new("TextButton")
-anim1.Parent = MainFrame
+anim1.Parent = AnimFrame
 anim1.Size = UDim2.new(0, 99, 0, 27)
 anim1.Position = UDim2.new(0, 0, 0.101, 0)
 anim1.Text = "Twist"
 
 local anim2 = Instance.new("TextButton")
-anim2.Parent = MainFrame
+anim2.Parent = AnimFrame
 anim2.Size = UDim2.new(0, 99, 0, 27)
 anim2.Position = UDim2.new(0, 0, 0.184, 0)
 anim2.Text = "Take The L"
 
 local anim3 = Instance.new("TextButton")
-anim3.Parent = MainFrame
+anim3.Parent = AnimFrame
 anim3.Size = UDim2.new(0, 99, 0, 27)
 anim3.Position = UDim2.new(0, 0, 0.267, 0)
 anim3.Text = "Electro Shuffle"
 
 local anim4 = Instance.new("TextButton")
-anim4.Parent = MainFrame
+anim4.Parent = AnimFrame
 anim4.Size = UDim2.new(0, 99, 0, 27)
 anim4.Position = UDim2.new(0, 0, 0.342, 0)
 anim4.Text = "Worm"
