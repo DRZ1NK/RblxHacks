@@ -401,6 +401,27 @@ highlightButton.MouseButton1Click:Connect(function()
 	setupFinder(highlightEnabled)
 end)
 
+UserInputService.InputBegan:Connect(function(inp, gP)
+	if gP then return end
+	if inp.UserInputType == Enum.UserInputType.Keyboard then
+		if inp.KeyCode == Enum.KeyCode.T then
+			local root = player.Character:WaitForChild("HumanoidRootPart")
+
+			safe = not safe
+			safeButton.Text = safe and "Safe: YES" or "Safe: NO"
+
+			if safe then
+				PlayerOrigin = root.CFrame
+				root.CFrame = safetyPlatform.CFrame + Vector3.new(0, 3, 0)
+			else
+				if PlayerOrigin then
+					root.CFrame = PlayerOrigin
+				end
+			end
+		end
+	end
+end)
+
 -------------------------------------------------
 -- Frame Drag
 -------------------------------------------------
