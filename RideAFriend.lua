@@ -1,6 +1,7 @@
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
 
 local player = Players.LocalPlayer
 
@@ -16,6 +17,15 @@ local PlayerOrigin
 local highlightEnabled = false
 local maxJumps = math.huge
 local jumpCount = 0
+
+-------------------------------------------------
+-- Credits Notis
+-------------------------------------------------
+StarterGui:SetCore("SendNotification", {
+	Title = "Ride A Friend (NSFW)",
+	Text = "Ts Is Not Finished Dont Cry Now Lil Nigger",
+	Duration = 2
+})
 
 
 -------------------------------------------------
