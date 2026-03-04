@@ -6,8 +6,8 @@ local player = Players.LocalPlayer
 
 local MIN_SPEED = 16
 local MAX_SPEED = 200
-local originalJumpPower = 50
-local jumpPower = 50
+local originalJumpHeight = 50
+local jumpHeight = 50
 local walkSpeed = 16
 local enabled = true
 local draggable = false
@@ -125,9 +125,9 @@ local function setupCharacter(char)
 	humanoid = char:WaitForChild("Humanoid")
 	root = char:WaitForChild("HumanoidRootPart")
 
-	originalJumpPower = humanoid.JumpPower
-	jumpPower = originalJumpPower
-	jumpLabel.Text = "Jump: "..math.floor(jumpPower)
+	originalJumpHeight = humanoid.JumpHeight
+	jumpHeight = originalJumpHeight
+	jumpLabel.Text = "Jump: "..math.floor(jumpHeight)
 
 	humanoid.StateChanged:Connect(function(_, new)
 		if new == Enum.HumanoidStateType.Landed then
@@ -190,9 +190,9 @@ UserInputService.InputChanged:Connect(function(input)
 		local size = jumpBar.AbsoluteSize.X
 		local pos = math.clamp(input.Position.X - jumpBar.AbsolutePosition.X,0,size)
 		jumpButton.Position = UDim2.new(0,pos-5,-0.5,0)
-		jumpPower = originalJumpPower + (pos/size)*100
-		jumpLabel.Text = "Jump: "..math.floor(jumpPower)
-		humanoid.JumpPower = jumpPower
+		jumpHeight = originalJumpHeight + (pos/size)*100
+		jumpLabel.Text = "Jump: "..math.floor(jumpHeight)
+		humanoid.JumpHeight = jumpHeight
 	end
 end)
 
@@ -367,7 +367,7 @@ UserInputService.JumpRequest:Connect(function()
 	if not humanoid then return end
 	if jumpCount < maxJumps then
 		jumpCount += 1
-		humanoid.JumpPower = jumpPower
+		humanoid.JumpHeight = jumpHeight
 		humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 	end
 end)
