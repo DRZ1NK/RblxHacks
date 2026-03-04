@@ -85,7 +85,7 @@ sliderButton.Parent = sliderBar
 
 local speedLabel = Instance.new("TextLabel")
 speedLabel.Size = UDim2.new(1, 0, 0, 30)
-speedLabel.Position = UDim2.new(0, 0, 0.7, 0)
+speedLabel.Position = UDim2.new(0, 0, 0.3, 0)
 speedLabel.BackgroundTransparency = 1
 speedLabel.TextColor3 = Color3.new(1,1,1)
 speedLabel.Text = "Speed: 16"
