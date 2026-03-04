@@ -1,3 +1,7 @@
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
+
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -17,15 +21,22 @@ local PlayerOrigin
 local highlightEnabled = false
 local maxJumps = math.huge
 local jumpCount = 0
+local active = false
+local originalPositions = {}
+
 
 -------------------------------------------------
 -- Credits Notis
 -------------------------------------------------
-StarterGui:SetCore("SendNotification", {
-	Title = "Ride A Friend (NSFW)",
-	Text = "Ts Is Not Finished Dont Cry Now Lil Nigger",
-	Duration = 2
-})
+repeat
+	task.wait()
+until pcall(function()
+	StarterGui:SetCore("SendNotification", {
+		Title = "Ride A Friend (NSFW)",
+		Text = "Ts Is Not Finished Dont Cry Now Lil Nigger",
+		Duration = 2
+	})
+end)
 
 
 -------------------------------------------------
@@ -95,6 +106,44 @@ safeButton.MouseButton1Click:Connect(function()
 	else
 		if PlayerOrigin then
 			root.CFrame = PlayerOrigin
+		end
+	end
+end)
+
+local TpHealth = Instance.new("TextButton")
+TpHealth.Size = UDim2.new(0, 80, 0, 25)
+TpHealth.Position = UDim2.new(0, 95, 0.15, 5)
+TpHealth.Text = "Tp Health"
+TpHealth.BackgroundColor3 = Color3.fromRGB(80,80,80)
+TpHealth.TextColor3 = Color3.new(1,1,1)
+TpHealth.Parent = frame
+	
+TpHealth.MouseButton1Click:Connect(function()
+	local root = player.Character:WaitForChild("HumanoidRootPart")
+	active = not active
+	
+	local zoneFolder = workspace:FindFirstChild("ZoneFolder")
+	if not zoneFolder then print("didnt find zoneFolder") end
+	local buffsFolder = zoneFolder:FindFirstChild("PlaceBuff")
+	if not buffsFolder then print("didnt find BuffsFolder") end
+
+	for _, model in ipairs(buffsFolder:GetChildren()) do
+		if model:IsA("Model") and model.Name == "PlaceBuff_10003" then
+			if not model.PrimaryPart then
+				model.PrimaryPart = model:FindFirstChildWhichIsA("BasePart")
+			end
+			if model.PrimaryPart then
+				if active then
+					if not originalPositions[model] then
+						originalPositions[model] = model.PrimaryPart.CFrame
+					end
+					model:SetPrimaryPartCFrame(root.CFrame + Vector3.new(0,1,0))
+				else
+					if originalPositions[model] then
+						model:SetPrimaryPartCFrame(originalPositions[model])
+					end
+				end
+			end
 		end
 	end
 end)
@@ -239,7 +288,6 @@ UserInputService.InputChanged:Connect(function(input)
 		jumpButton.Position = UDim2.new(0,pos-5,-0.5,0)
 		jumpHeight = originalJumpHeight + (pos/size)*100
 		jumpLabel.Text = "Jump: "..math.floor(jumpHeight)
-		humanoid.JumpHeight = jumpHeight
 	end
 end)
 
@@ -416,6 +464,9 @@ UserInputService.JumpRequest:Connect(function()
 		jumpCount += 1
 		humanoid.JumpHeight = jumpHeight
 		humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+
+		local root = humanoid.Parent:WaitForChild("HumanoidRootPart")
+		root.CFrame += Vector3.new(0, jumpHeight/4, 0)
 	end
 end)
 
