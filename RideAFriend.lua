@@ -11,6 +11,8 @@ local jumpHeight = 50
 local walkSpeed = 16
 local enabled = true
 local draggable = false
+local safe = false
+local PlayerOrigin
 local highlightEnabled = false
 local maxJumps = math.huge
 local jumpCount = 0
@@ -21,7 +23,7 @@ local jumpCount = 0
 -------------------------------------------------
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "CFrameSpeedGui"
+gui.Name = "RideANigga"
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
@@ -33,8 +35,10 @@ frame.Parent = gui
 
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 30)
-title.Text = "CFrame Speed + Finder"
+title.TextSize = 20
+title.Text = "Priv Hub"
 title.BackgroundTransparency = 1
+title.Position = UDim2.new(0, 0, -0.15, 0)
 title.TextColor3 = Color3.new(1,1,1)
 title.Parent = frame
 
@@ -50,6 +54,39 @@ dragButton.Parent = frame
 dragButton.MouseButton1Click:Connect(function()
 	draggable = not draggable
 	dragButton.Text = draggable and "Drag: ON" or "Drag: OFF"
+end)
+
+-- Safety Toggle
+local safeButton = Instance.new("TextButton")
+safeButton.Size = UDim2.new(0, 80, 0, 25)
+safeButton.Position = UDim2.new(0, 5, 0.15, 5)
+safeButton.Text = "Safe: NO"
+safeButton.BackgroundColor3 = Color3.fromRGB(80,80,80)
+safeButton.TextColor3 = Color3.new(1,1,1)
+safeButton.Parent = frame
+
+local safetyPlatform = Instance.new("Part")
+safetyPlatform.Size = Vector3.new(100, 1, 100)
+safetyPlatform.Anchored = true
+safetyPlatform.CanCollide = true
+safetyPlatform.Color = Color3.new(0,1,0)
+safetyPlatform.Parent = workspace
+safetyPlatform.CFrame = CFrame.new(100000, 100000, 100000)
+
+safeButton.MouseButton1Click:Connect(function()
+	local root = player.Character:WaitForChild("HumanoidRootPart")
+
+	safe = not safe
+	safeButton.Text = safe and "Safe: YES" or "Safe: NO"
+
+	if safe then
+		PlayerOrigin = root.CFrame
+		root.CFrame = safetyPlatform.CFrame + Vector3.new(0, 3, 0)
+	else
+		if PlayerOrigin then
+			root.CFrame = PlayerOrigin
+		end
+	end
 end)
 
 -- Highlight Toggle
@@ -73,19 +110,19 @@ closeButton.Parent = frame
 -- Slider
 local sliderBar = Instance.new("Frame")
 sliderBar.Size = UDim2.new(0.8, 0, 0, 10)
-sliderBar.Position = UDim2.new(0.1, 0, 0.55, 0)
+sliderBar.Position = UDim2.new(0.1, 0, 0.45, 0)
 sliderBar.BackgroundColor3 = Color3.fromRGB(80,80,80)
 sliderBar.Parent = frame
 
 local sliderButton = Instance.new("Frame")
 sliderButton.Size = UDim2.new(0, 10, 0, 20)
-sliderButton.Position = UDim2.new(0, 0, -0.5, 0)
+sliderButton.Position = UDim2.new(0, 0, -0.4, 0)
 sliderButton.BackgroundColor3 = Color3.fromRGB(0,170,255)
 sliderButton.Parent = sliderBar
 
 local speedLabel = Instance.new("TextLabel")
 speedLabel.Size = UDim2.new(1, 0, 0, 30)
-speedLabel.Position = UDim2.new(0, 0, 0.3, 0)
+speedLabel.Position = UDim2.new(0, 0, 0.4, 0)
 speedLabel.BackgroundTransparency = 1
 speedLabel.TextColor3 = Color3.new(1,1,1)
 speedLabel.Text = "Speed: 16"
@@ -107,7 +144,7 @@ jumpButton.BackgroundColor3 = Color3.fromRGB(0,255,100)
 
 local jumpLabel = Instance.new("TextLabel", frame)
 jumpLabel.Size = UDim2.new(1,0,0,25)
-jumpLabel.Position = UDim2.new(0,0,0.77,0)
+jumpLabel.Position = UDim2.new(0,0,0.66,0)
 jumpLabel.BackgroundTransparency = 1
 jumpLabel.TextColor3 = Color3.new(1,1,1)
 jumpLabel.Text = "Jump: 50"
@@ -115,7 +152,7 @@ jumpLabel.Text = "Jump: 50"
 
 
 -------------------------------------------------
--- IDK
+-- Jump Logic
 -------------------------------------------------
 
 local humanoid
@@ -134,7 +171,7 @@ local function setupCharacter(char)
 			jumpCount = 0
 		end
 	end)
-	
+
 	humanoid:GetPropertyChangedSignal("FloorMaterial"):Connect(function()
 		if humanoid.FloorMaterial ~= Enum.Material.Air then
 			jumpCount = 0
