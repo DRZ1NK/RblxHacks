@@ -1,231 +1,321 @@
-local player = game.Players.LocalPlayer
+local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
 
--- ScreenGui
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = player:WaitForChild("PlayerGui")
+local player = Players.LocalPlayer
 
--- Main Frame
-local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 500, 0, 300)
-MainFrame.Position = UDim2.new(0.5, -250, 0.5, -150)
-MainFrame.BackgroundColor3 = Color3.fromRGB(30,30,30)
-MainFrame.BorderSizePixel = 0
-MainFrame.Parent = ScreenGui
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
 
--- Right-side Drag Handle
-local DragHandle = Instance.new("Frame")
-DragHandle.Size = UDim2.new(0, 20, 1, 0)
-DragHandle.Position = UDim2.new(1,-20,0,0)
-DragHandle.BackgroundColor3 = Color3.fromRGB(100,100,100)
-DragHandle.BorderSizePixel = 0
-DragHandle.ZIndex = 10
-DragHandle.Parent = MainFrame
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0,500,0,300)
+main.Position = UDim2.new(0.5,-250,0.5,-150)
+main.BackgroundColor3 = Color3.fromRGB(35,35,35)
+main.BorderSizePixel = 0
+main.Parent = gui
 
-local DragLabel = Instance.new("TextLabel")
-DragLabel.Size = UDim2.new(1,0,1,0)
-DragLabel.BackgroundTransparency = 1
-DragLabel.Text = "DRAG"
-DragLabel.TextColor3 = Color3.fromRGB(255,255,255)
-DragLabel.TextScaled = true
-DragLabel.Font = Enum.Font.SourceSansBold
-DragLabel.Rotation = 90
-DragLabel.ZIndex = 11
-DragLabel.Parent = DragHandle
+Instance.new("UICorner",main).CornerRadius = UDim.new(0,8)
 
--- Drag system
-local dragging = false
-local dragStart = Vector2.new()
-local startPos = UDim2.new()
+-- drag handle
+local drag = Instance.new("Frame")
+drag.Size = UDim2.new(0,18,1,0)
+drag.Position = UDim2.new(1,-18,0,0)
+drag.BackgroundColor3 = Color3.fromRGB(60,60,60)
+drag.Parent = main
+Instance.new("UICorner",drag).CornerRadius = UDim.new(0,6)
 
-DragHandle.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = true
-		dragStart = input.Position
-		startPos = MainFrame.Position
+local dragging=false
+local dragStart,startPos
+
+drag.InputBegan:Connect(function(i)
+	if i.UserInputType==Enum.UserInputType.MouseButton1 then
+		dragging=true
+		dragStart=i.Position
+		startPos=main.Position
 	end
 end)
 
-DragHandle.InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = false
+drag.InputEnded:Connect(function(i)
+	if i.UserInputType==Enum.UserInputType.MouseButton1 then
+		dragging=false
 	end
 end)
 
-UIS.InputChanged:Connect(function(input)
-	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-		local delta = input.Position - dragStart
-		MainFrame.Position = UDim2.new(
-			startPos.X.Scale,
-			startPos.X.Offset + delta.X,
-			startPos.Y.Scale,
-			startPos.Y.Offset + delta.Y
-		)
+UIS.InputChanged:Connect(function(i)
+	if dragging and i.UserInputType==Enum.UserInputType.MouseMovement then
+		local delta=i.Position-dragStart
+		main.Position=UDim2.new(startPos.X.Scale,startPos.X.Offset+delta.X,startPos.Y.Scale,startPos.Y.Offset+delta.Y)
 	end
 end)
 
--- Tabs
-local Tabs = {"player","main","highlights","misc"}
-local Pages = {}
+-- tabs
+local tabs={"player","main","highlights","misc"}
+local pages={}
 
--- Slider Helper
-local function createSlider(Page,labelText,minVal,maxVal,defaultVal,yPos,callback)
-	local SliderFrame = Instance.new("Frame")
-	SliderFrame.Size = UDim2.new(0,300,0,50)
-	SliderFrame.Position = UDim2.new(0,20,0,yPos)
-	SliderFrame.BackgroundTransparency = 1
-	SliderFrame.Parent = Page
-	SliderFrame.ZIndex = 2
+for i,name in ipairs(tabs) do
 
-	local Label = Instance.new("TextLabel")
-	Label.Size = UDim2.new(1,0,0,20)
-	Label.BackgroundTransparency = 1
-	Label.Text = labelText..": "..defaultVal
-	Label.TextColor3 = Color3.new(1,1,1)
-	Label.TextScaled = true
-	Label.ZIndex = 3
-	Label.Parent = SliderFrame
+	local tab=Instance.new("TextButton")
+	tab.Size=UDim2.new(0,120,0,30)
+	tab.Position=UDim2.new(0,(i-1)*120,0,0)
+	tab.BackgroundColor3=Color3.fromRGB(50,50,50)
+	tab.TextColor3=Color3.new(1,1,1)
+	tab.Text=name
+	tab.Parent=main
+	Instance.new("UICorner",tab).CornerRadius=UDim.new(0,6)
 
-	local Bar = Instance.new("Frame")
-	Bar.Size = UDim2.new(1,0,0,10)
-	Bar.Position = UDim2.new(0,0,0,30)
-	Bar.BackgroundColor3 = Color3.fromRGB(70,70,70)
-	Bar.ZIndex = 2
-	Bar.Parent = SliderFrame
+	local page=Instance.new("Frame")
+	page.Size=UDim2.new(1,0,1,-30)
+	page.Position=UDim2.new(0,0,0,30)
+	page.BackgroundTransparency=1
+	page.Visible=false
+	page.Parent=main
 
-	local Fill = Instance.new("Frame")
-	Fill.Size = UDim2.new((defaultVal-minVal)/(maxVal-minVal),0,1,0)
-	Fill.BackgroundColor3 = Color3.fromRGB(0,170,255)
-	Fill.ZIndex = 3
-	Fill.Parent = Bar
+	pages[name]=page
 
-	local sliding = false
-	Bar.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			sliding = true
-		end
+	tab.MouseButton1Click:Connect(function()
+		for _,p in pairs(pages) do p.Visible=false end
+		page.Visible=true
 	end)
-	Bar.InputEnded:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			sliding = false
-		end
-	end)
-	UIS.InputChanged:Connect(function(input)
-		if sliding and input.UserInputType == Enum.UserInputType.MouseMovement then
-			local percent = math.clamp((input.Position.X - Bar.AbsolutePosition.X)/Bar.AbsoluteSize.X,0,1)
-			Fill.Size = UDim2.new(percent,0,1,0)
-			local value = math.floor(minVal + (maxVal-minVal)*percent)
-			Label.Text = labelText..": "..value
-			callback(value)
-		end
-	end)
+
 end
 
--- Button names per tab
-local ButtonNames = {
-	main = {"Action 1","Action 2","Resize +","Resize -"},
-	highlights = {"Neon","Plastic","Reflect +","Reflect -"},
-	misc = {"Say Hi","Gravity 50","Sit Humanoid","Force Sit"}
-}
+pages.player.Visible=true
 
--- Create Pages
-for _, name in pairs(Tabs) do
-	local Page = Instance.new("Frame")
-	Page.Size = UDim2.new(1,0,1,0)
-	Page.Position = UDim2.new(0,0,0,0)
-	Page.BackgroundColor3 = Color3.fromRGB(40,40,40)
-	Page.Visible = false
-	Page.ZIndex = 1
-	Page.Parent = MainFrame
-	Pages[name] = Page
+-- slider
+local function createSlider(parent,text,min,max,default,y,callback)
 
-	-- Small top label
-	local TabLabel = Instance.new("TextLabel")
-	TabLabel.Size = UDim2.new(0, 100, 0, 20)
-	TabLabel.Position = UDim2.new(0,10,0,5)
-	TabLabel.BackgroundTransparency = 1
-	TabLabel.Text = string.upper(name)
-	TabLabel.TextColor3 = Color3.new(1,1,1)
-	TabLabel.TextScaled = true
-	TabLabel.Font = Enum.Font.SourceSansBold
-	TabLabel.ZIndex = 5
-	TabLabel.Parent = Page
+	local frame=Instance.new("Frame")
+	frame.Size=UDim2.new(0,300,0,50)
+	frame.Position=UDim2.new(0,20,0,y)
+	frame.BackgroundTransparency=1
+	frame.Parent=parent
 
-	if name == "player" then
-		local character = player.Character or player.CharacterAdded:Wait()
-		local humanoid = character:WaitForChild("Humanoid")
+	local label=Instance.new("TextLabel")
+	label.Size=UDim2.new(1,0,0,20)
+	label.BackgroundTransparency=1
+	label.TextColor3=Color3.new(1,1,1)
+	label.Text=text..": "..default
+	label.Parent=frame
 
-		createSlider(Page,"WalkSpeed",0,200,16,50,function(val) humanoid.WalkSpeed = val end)
-		createSlider(Page,"Jump",0,200,50,120,function(val)
-			if humanoid.UseJumpPower then
-				humanoid.JumpPower = val
-			else
-				humanoid.JumpHeight = val
-			end
-		end)
+	local bar=Instance.new("Frame")
+	bar.Size=UDim2.new(1,0,0,10)
+	bar.Position=UDim2.new(0,0,0,30)
+	bar.BackgroundColor3=Color3.fromRGB(80,80,80)
+	bar.Parent=frame
+	Instance.new("UICorner",bar).CornerRadius=UDim.new(1,0)
+
+	local fill=Instance.new("Frame")
+	fill.Size=UDim2.new((default-min)/(max-min),0,1,0)
+	fill.BackgroundColor3=Color3.fromRGB(0,170,255)
+	fill.Parent=bar
+	Instance.new("UICorner",fill).CornerRadius=UDim.new(1,0)
+
+	local sliding=false
+
+	bar.InputBegan:Connect(function(i)
+		if i.UserInputType==Enum.UserInputType.MouseButton1 then sliding=true end
+	end)
+
+	bar.InputEnded:Connect(function(i)
+		if i.UserInputType==Enum.UserInputType.MouseButton1 then sliding=false end
+	end)
+
+	UIS.InputChanged:Connect(function(i)
+
+		if sliding and i.UserInputType==Enum.UserInputType.MouseMovement then
+
+			local percent=math.clamp((i.Position.X-bar.AbsolutePosition.X)/bar.AbsoluteSize.X,0,1)
+
+			fill.Size=UDim2.new(percent,0,1,0)
+
+			local value=math.floor(min+(max-min)*percent)
+
+			label.Text=text..": "..value
+
+			callback(value)
+
+		end
+	end)
+
+end
+
+-- humanoid
+local char=player.Character or player.CharacterAdded:Wait()
+local humanoid=char:WaitForChild("Humanoid")
+
+local walk=16
+local jump=50
+
+createSlider(pages.player,"WalkSpeed",0,200,16,40,function(v) walk=v end)
+createSlider(pages.player,"Jump",0,200,50,110,function(v) jump=v end)
+
+RunService.RenderStepped:Connect(function()
+
+	humanoid.WalkSpeed=walk
+
+	if humanoid.UseJumpPower then
+		humanoid.JumpPower=jump
+	else
+		humanoid.JumpHeight=jump
+	end
+
+end)
+
+-- TELEPORT DROPDOWN
+
+local function teleportToPlayer(plr)
+
+	local my=player.Character
+	local target=plr.Character
+
+	if my and target then
+
+		local r1=my:FindFirstChild("HumanoidRootPart")
+		local r2=target:FindFirstChild("HumanoidRootPart")
+
+		if r1 and r2 then
+			r1.CFrame=r2.CFrame*CFrame.new(0,0,-3)
+		end
+
+	end
+end
+
+local tp=Instance.new("TextButton")
+tp.Size=UDim2.new(0,140,0,36)
+tp.Position=UDim2.new(0,20,0,30)
+tp.BackgroundColor3=Color3.fromRGB(60,60,60)
+tp.TextColor3=Color3.new(1,1,1)
+tp.Text="Teleport Player"
+tp.Parent=pages.main
+Instance.new("UICorner",tp).CornerRadius=UDim.new(0,6)
+
+local dropdown=Instance.new("ScrollingFrame")
+dropdown.Size=UDim2.new(0,140,0,120)
+dropdown.Position=UDim2.new(0,20,0,70)
+dropdown.BackgroundColor3=Color3.fromRGB(45,45,45)
+dropdown.Visible=false
+dropdown.ScrollBarThickness=4
+dropdown.Parent=pages.main
+Instance.new("UICorner",dropdown).CornerRadius=UDim.new(0,6)
+
+local layout=Instance.new("UIListLayout",dropdown)
+
+local function refresh()
+
+	for _,v in pairs(dropdown:GetChildren()) do
+		if v:IsA("TextButton") then v:Destroy() end
+	end
+
+	for _,plr in pairs(Players:GetPlayers()) do
+
+		if plr~=player then
+
+			local b=Instance.new("TextButton")
+			b.Size=UDim2.new(1,0,0,30)
+			b.BackgroundColor3=Color3.fromRGB(70,70,70)
+			b.TextColor3=Color3.new(1,1,1)
+			b.Text=plr.Name
+			b.Parent=dropdown
+			Instance.new("UICorner",b).CornerRadius=UDim.new(0,6)
+
+			b.MouseButton1Click:Connect(function()
+				teleportToPlayer(plr)
+				dropdown.Visible=false
+			end)
+
+		end
+
+	end
+
+	dropdown.CanvasSize=UDim2.new(0,0,0,layout.AbsoluteContentSize.Y)
+
+end
+
+tp.MouseButton1Click:Connect(function()
+	dropdown.Visible=not dropdown.Visible
+	if dropdown.Visible then refresh() end
+end)
+
+Players.PlayerAdded:Connect(refresh)
+Players.PlayerRemoving:Connect(refresh)
+
+-- ESP
+
+local espEnabled=false
+local highlights={}
+
+local function addESP(plr)
+
+	if plr==player then return end
+
+	local function setup(char)
+
+		local h=Instance.new("Highlight")
+		h.FillTransparency=1
+		h.OutlineColor=Color3.fromRGB(255,0,0)
+		h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop
+		h.Parent=char
+
+		highlights[plr]=h
+	end
+
+	if plr.Character then
+		setup(plr.Character)
+	end
+
+	plr.CharacterAdded:Connect(setup)
+
+end
+
+local function removeESP()
+
+	for _,h in pairs(highlights) do
+		if h then h:Destroy() end
+	end
+
+	highlights={}
+
+end
+
+local espButton=Instance.new("TextButton")
+espButton.Size=UDim2.new(0,150,0,40)
+espButton.Position=UDim2.new(0,20,0,40)
+espButton.BackgroundColor3=Color3.fromRGB(60,60,60)
+espButton.TextColor3=Color3.new(1,1,1)
+espButton.Text="Toggle ESP"
+espButton.Parent=pages.highlights
+Instance.new("UICorner",espButton).CornerRadius=UDim.new(0,6)
+
+espButton.MouseButton1Click:Connect(function()
+
+	espEnabled=not espEnabled
+
+	if espEnabled then
+
+		for _,p in pairs(Players:GetPlayers()) do
+			addESP(p)
+		end
 
 	else
-		for i = 1,4 do
-			local Button = Instance.new("TextButton")
-			Button.Size = UDim2.new(0,100,0,40)
-			Button.Position = UDim2.new(0,20 + ((i-1)*110),0,60)
-			Button.BackgroundColor3 = Color3.fromRGB(60,60,60)
-			Button.TextColor3 = Color3.new(1,1,1)
-			Button.Text = ButtonNames[name][i] or "Button"..i
-			Button.BorderSizePixel = 0
-			Button.ZIndex = 3
-			Button.Parent = Page
 
-			-- Unique functions per button
-			Button.MouseButton1Click:Connect(function()
-				if name == "main" then
-					if i == 1 then print("Main - Action 1 executed")
-					elseif i == 2 then MainFrame.BackgroundColor3 = Color3.fromRGB(255,100,100)
-					elseif i == 3 then MainFrame.Size = UDim2.new(0,600,0,400)
-					elseif i == 4 then MainFrame.Size = UDim2.new(0,400,0,250) end
-				elseif name == "highlights" then
-					local char = player.Character
-					if char then
-						for _, part in pairs(char:GetChildren()) do
-							if part:IsA("BasePart") then
-								if i == 1 then part.Material = Enum.Material.Neon
-								elseif i == 2 then part.Material = Enum.Material.Plastic
-								elseif i == 3 then part.Reflectance = 0.5
-								elseif i == 4 then part.Reflectance = 0 end
-							end
-						end
-					end
-				elseif name == "misc" then
-					if i == 1 then print("Hello from Misc!")
-					elseif i == 2 then workspace.Gravity = 50
-					elseif i == 3 then
-						local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-						if humanoid then humanoid.Sit = true end
-					elseif i == 4 then
-						player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Seated)
-					end
-				end
-			end)
-		end
+		removeESP()
+
 	end
+
+end)
+
+-- misc buttons
+for i=1,3 do
+
+	local b=Instance.new("TextButton")
+	b.Size=UDim2.new(0,120,0,36)
+	b.Position=UDim2.new(0,20+(i*130),0,40)
+	b.BackgroundColor3=Color3.fromRGB(60,60,60)
+	b.TextColor3=Color3.new(1,1,1)
+	b.Text="Button "..i
+	b.Parent=pages.misc
+	Instance.new("UICorner",b).CornerRadius=UDim.new(0,6)
+
 end
-
--- Tab Buttons
-for i,name in pairs(Tabs) do
-	local Button = Instance.new("TextButton")
-	Button.Size = UDim2.new(0,125,0,30)
-	Button.Position = UDim2.new(0,(i-1)*125,0,0)
-	Button.BackgroundColor3 = Color3.fromRGB(50,50,50)
-	Button.TextColor3 = Color3.new(1,1,1)
-	Button.Text = name
-	Button.BorderSizePixel = 0
-	Button.ZIndex = 6
-	Button.Parent = MainFrame
-
-	Button.MouseButton1Click:Connect(function()
-		for _, page in pairs(Pages) do page.Visible = false end
-		Pages[name].Visible = true
-	end)
-end
-
-Pages["player"].Visible = true
