@@ -17,7 +17,7 @@ local walkSpeed = 16
 local enabled = true
 local draggable = false
 local safe = false
-local PlayerOrigin
+local PlayerOrigin = Vector3.new(371, 61, -645)
 local highlightEnabled = false
 local maxJumps = math.huge
 local jumpCount = 0
@@ -117,11 +117,11 @@ TpHealth.Text = "Tp Health"
 TpHealth.BackgroundColor3 = Color3.fromRGB(80,80,80)
 TpHealth.TextColor3 = Color3.new(1,1,1)
 TpHealth.Parent = frame
-	
+
 TpHealth.MouseButton1Click:Connect(function()
 	local root = player.Character:WaitForChild("HumanoidRootPart")
 	active = not active
-	
+
 	local zoneFolder = workspace:FindFirstChild("ZoneFolder")
 	if not zoneFolder then print("didnt find zoneFolder") end
 	local buffsFolder = zoneFolder:FindFirstChild("PlaceBuff")
@@ -411,7 +411,6 @@ UserInputService.InputBegan:Connect(function(inp, gP)
 			safeButton.Text = safe and "Safe: YES" or "Safe: NO"
 
 			if safe then
-				PlayerOrigin = root.CFrame
 				root.CFrame = safetyPlatform.CFrame + Vector3.new(0, 3, 0)
 			else
 				if PlayerOrigin then
