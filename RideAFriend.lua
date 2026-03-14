@@ -477,7 +477,8 @@ local function startMovement(character)
 	end)
 end
 
-UserInputService.JumpRequest:Connect(function()
+local Jumpconnection
+Jumpconnection = UserInputService.JumpRequest:Connect(function()
 	if not humanoid then return end
 	if jumpCount < maxJumps then
 		jumpCount += 1
@@ -498,6 +499,9 @@ closeButton.MouseButton1Click:Connect(function()
 	enabled = false
 	if moveConnection then
 		moveConnection:Disconnect()
+	end
+	if Jumpconnection then
+		Jumpconnection:Disconnect()
 	end
 	clearAllFinders()
 	gui:Destroy()
