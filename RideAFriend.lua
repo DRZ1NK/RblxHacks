@@ -39,7 +39,7 @@ repeat
 until pcall(function()
 	StarterGui:SetCore("SendNotification", {
 		Title = "Priv Hub",
-		Text = "Ts Is Not Finished Dont Cry Now Lil Nigger Ride A Friend (NSFW)",
+		Text = "Ts Is Not Finished Dont Cry Now Lil Nigger\nRide A Friend (NSFW)",
 		Duration = 2
 	})
 end)
