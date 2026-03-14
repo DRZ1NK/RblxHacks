@@ -37,8 +37,8 @@ repeat
 	task.wait()
 until pcall(function()
 	StarterGui:SetCore("SendNotification", {
-		Title = "Ride A Friend (NSFW)",
-		Text = "Ts Is Not Finished Dont Cry Now Lil Nigger",
+		Title = "Priv Hub",
+		Text = "Ts Is Not Finished Dont Cry Now Lil Nigger\n Ride A Friend (NSFW)",
 		Duration = 2
 	})
 end)
