@@ -17,7 +17,6 @@ local walkSpeed = 16
 local enabled = true
 local draggable = false
 local safe = false
-local PlayerOrigin = Vector3.new(371, 61, -645)
 local highlightEnabled = false
 local maxJumps = math.huge
 local jumpCount = 0
@@ -414,7 +413,7 @@ UserInputService.InputBegan:Connect(function(inp, gP)
 				root.CFrame = safetyPlatform.CFrame + Vector3.new(0, 3, 0)
 			else
 				if PlayerOrigin then
-					root.CFrame = PlayerOrigin
+					root.CFrame = CFrame.new(Vector3.new(371, 61, -645))
 				end
 			end
 		end
