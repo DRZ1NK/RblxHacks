@@ -400,7 +400,8 @@ highlightButton.MouseButton1Click:Connect(function()
 	setupFinder(highlightEnabled)
 end)
 
-UserInputService.InputBegan:Connect(function(inp, gP)
+local SafeConnection
+SafeConnection = UserInputService.InputBegan:Connect(function(inp, gP)
 	if gP then return end
 	if inp.UserInputType == Enum.UserInputType.Keyboard then
 		if inp.KeyCode == Enum.KeyCode.T then
@@ -502,6 +503,9 @@ closeButton.MouseButton1Click:Connect(function()
 	end
 	if Jumpconnection then
 		Jumpconnection:Disconnect()
+	end
+	if SafeConnection then
+		SafeConnection:Disconnect()
 	end
 	clearAllFinders()
 	gui:Destroy()
