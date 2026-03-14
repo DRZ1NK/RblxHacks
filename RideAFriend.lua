@@ -1,8 +1,8 @@
-if IY_LOADED then
+if IS_LOADED then
 	return
 end
 
-pcall(function() getgenv().IY_LOADED = true end)
+pcall(function() getgenv().IS_LOADED = true end)
 
 if not game:IsLoaded() then
 	game.Loaded:Wait()
