@@ -1,4 +1,5 @@
 if IS_LOADED then
+	print("Alr Loaded")
 	return
 end
 
