@@ -1,10 +1,3 @@
---[[if IS_LOADED then
-	print("Alr Loaded")
-	return
-end
-
-pcall(function() getgenv().IS_LOADED = true end) ]]--
-
 if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
