@@ -409,8 +409,8 @@ SafeConnection = UserInputService.InputBegan:Connect(function(inp, gP)
 			if safe then
 				root.CFrame = safetyPlatform.CFrame + Vector3.new(0, 3, 0)
 			else
-				if PlayerOrigin then
-					root.CFrame = CFrame.new(353 63 -606)
+				if not safe then
+					root.CFrame = CFrame.new(353, 63, -606)
 				end
 			end
 		end
