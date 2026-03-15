@@ -30,7 +30,7 @@ local originalPositions = {}
 StarterGui:SetCore("SendNotification", {
 	Title = "Ride A Friend (NSFW)",
 	Text = "Ts Is Not Finished Dont Cry Now Lil Nigger",
-	Duration = 2
+	Duration = 2,
 })
 
 
